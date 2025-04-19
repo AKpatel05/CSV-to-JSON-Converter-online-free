@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to JSON Converter - Online Tool</title>
+    <meta name="description" content="Convert your CSV data or files into JSON format quickly and easily online. Ideal for developers working with APIs and data pipelines.">
+    <meta name="keywords" content="CSV to JSON, convert CSV to JSON, CSV to JSON online, free CSV to JSON converter, data conversion, API data, data pipeline, developer tool">
+    <meta name="author" content="Your Name or Tool Name"> <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient to bottom right, #6a11cb, #2575fc); /* Gradient background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 900px; /* Slightly wider container */
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .tool-description {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        h2 {
+            color: #0056b3;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .input-section, .output-section, .options-section, .status-area {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fefefe;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px; /* Adjusted height */
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+            gap: 20px; /* Space between options */
+        }
+
+        .option-group label {
+             margin-bottom: 5px; /* Smaller margin below label */
+        }
+
+        select, input[type="text"] {
+             width: 100%; /* Full width within grid item */
+             padding: 10px;
+             border: 1px solid #ccc;
+             border-radius: 4px;
+             box-sizing: border-box;
+             font-size: 1em;
+             margin-top: 5px; /* Space above input/select */
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .upload-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-size: 1em;
+            margin-top: 5px; /* Space above upload button */
+        }
+
+        .upload-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+         .upload-button:active {
+            transform: translateY(0);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 14px 25px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+         button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .output-actions {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+            margin-top: 15px;
+            justify-content: flex-end; /* Align buttons to the right */
+        }
+
+        .output-actions button {
+            width: auto; /* Auto width for action buttons */
+            padding: 10px 15px;
+            font-size: 1em;
+            margin-top: 0; /* Remove top margin */
+        }
+
+        #copyJsonBtn {
+            background-color: #17a2b8; /* Teal */
+        }
+         #copyJsonBtn:hover {
+            background-color: #138496;
+        }
+
+        #downloadJsonBtn {
+             background-color: #007bff; /* Blue */
+        }
+         #downloadJsonBtn:hover {
+            background-color: #0056b3;
+        }
+
+
+        .status-area {
+            text-align: center;
+            font-weight: 600;
+            color: #0056b3;
+            margin-top: 20px;
+            min-height: 1.5em;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) { /* Adjusted breakpoint */
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            .options-grid {
+                 grid-template-columns: 1fr; /* Stack options vertically on smaller screens */
+            }
+
+            textarea, input[type="text"], button, .upload-button, .output-actions button, select {
+                font-size: 0.95em;
+                padding: 10px;
+            }
+
+            textarea {
+                min-height: 150px;
+            }
+
+            .output-actions {
+                 flex-direction: column; /* Stack action buttons vertically */
+                 align-items: stretch; /* Stretch buttons to full width */
+            }
+
+             .output-actions button {
+                 width: 100%; /* Full width for stacked buttons */
+                 margin-bottom: 10px; /* Space between stacked buttons */
+             }
+             .output-actions button:last-child {
+                 margin-bottom: 0;
+             }
+        }
+    </style>
+
+    
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>CSV to JSON Converter</h1>
+        <p class="tool-description">Convert your Comma Separated Values (CSV) data into a structured JSON format. Useful for developers working with data imports, APIs, and scripting.</p>
+
+        <div class="input-section">
+            <h2>Enter CSV or Upload File</h2>
+            <textarea id="csvInput" placeholder="Paste your CSV data here..."></textarea>
+            <label for="csvFile" class="upload-button">
+                Or Upload .csv File
+                <input type="file" id="csvFile" accept=".csv">
+            </label>
+        </div>
+
+        <div class="options-section">
+            <h2>Options</h2>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label for="delimiterSelect">Delimiter:</label>
+                    <select id="delimiterSelect">
+                        <option value=",">Comma (,)</option>
+                        <option value=";">Semicolon (;)</option>
+                        <option value="\t">Tab</option>
+                        <option value="|">Pipe (|)</option>
+                        <option value="auto">Auto-detect</option>
+                    </select>
+                </div>
+                 <div class="option-group">
+                    <label>Has Header Row?</label>
+                    <div>
+                        <input type="checkbox" id="hasHeader" checked>
+                        <label for="hasHeader" style="display: inline-block; font-weight: normal;">Yes, first row is header</label>
+                    </div>
+                </div>
+                </div>
+        </div>
+
+        <button id="convertBtn">Convert to JSON</button>
+
+        <div class="status-area" id="statusArea">
+            Status: Ready
+        </div>
+
+        <div class="output-section" id="outputSection" style="display: none;">
+            <h2>JSON Output</h2>
+            <textarea id="jsonOutput" readonly></textarea> <div class="output-actions">
+                 <button id="copyJsonBtn">Copy JSON</button>
+                 <button id="downloadJsonBtn">Download JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <script>
+        // Get references to HTML elements
+        const csvInput = document.getElementById('csvInput');
+        const csvFile = document.getElementById('csvFile');
+        const delimiterSelect = document.getElementById('delimiterSelect');
+        const hasHeaderCheckbox = document.getElementById('hasHeader');
+        const convertBtn = document.getElementById('convertBtn');
+        const statusArea = document.getElementById('statusArea');
+        const outputSection = document.getElementById('outputSection');
+        const jsonOutput = document.getElementById('jsonOutput');
+        const copyJsonBtn = document.getElementById('copyJsonBtn');
+        const downloadJsonBtn = document.getElementById('downloadJsonBtn');
+
+        // Event Listener for File Input
+        csvFile.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                 // Use PapaParse to read the file directly
+                 console.log("Type of PapaParse:", typeof PapaParse);
+                 Papa.parse(file, {
+                     complete: function(results) {
+                         // Put parsed data back into the textarea for visibility/editing
+                         // Or, you could trigger conversion directly here
+                         // For simplicity, let's just show the raw text for now
+                         const reader = new FileReader();
+                         reader.onload = function(e) {
+                              csvInput.value = e.target.result;
+                              statusArea.textContent = 'Status: File loaded. Ready to convert.';
+                         }
+                         reader.onerror = function(e) {
+                              statusArea.textContent = 'Status: Error reading file.';
+                              console.error("File reading error", e);
+                         }
+                         reader.readAsText(file);
+
+                         // Note: For very large files, parsing directly in the complete callback is better
+                         // than loading into textarea first. But for typical web use, textarea is fine.
+                     },
+                     error: function(err, file) {
+                         statusArea.textContent = 'Status: Error reading or parsing file.';
+                         console.error("PapaParse File Error:", err);
+                     }
+                 });
+            } else {
+                csvInput.value = ''; // Clear textarea if no file selected
+                statusArea.textContent = 'Status: Ready';
+            }
+        });
+
+
+        // Event Listener for the Convert Button
+        convertBtn.addEventListener('click', function() {
+            const csvContent = csvInput.value;
+            const delimiter = delimiterSelect.value === 'auto' ? '' : delimiterSelect.value; // PapaParse uses '' for auto
+            const header = hasHeaderCheckbox.checked;
+
+            if (!csvContent.trim()) {
+                statusArea.textContent = 'Status: Please paste CSV data or upload a file.';
+                outputSection.style.display = 'none';
+                return;
+            }
+
+            // Hide previous output
+            outputSection.style.display = 'none';
+            statusArea.textContent = 'Status: Parsing CSV...';
+            convertBtn.disabled = true; // Disable button during conversion
+            jsonOutput.value = ''; // Clear previous output
+
+            // Use PapaParse to parse the CSV text
+            Papa.parse(csvContent, {
+                header: header, // Use header row for JSON keys if checked
+                delimiter: delimiter, // Use selected or auto-detected delimiter
+                skipEmptyLines: true, // Skip empty rows
+                complete: function(results) {
+                    statusArea.textContent = 'Status: Converting to JSON...';
+
+                    if (results.errors.length > 0) {
+                        statusArea.textContent = 'Status: CSV Parsing Errors!';
+                        console.error("PapaParse Errors:", results.errors);
+                        // Optionally display errors to the user
+                        jsonOutput.value = "Error parsing CSV. Check console for details.\n" + JSON.stringify(results.errors, null, 2);
+                         outputSection.style.display = 'block';
+                         convertBtn.disabled = false;
+                         return;
+                    }
+
+                    // PapaParse with header: true returns an array of objects directly
+                    // If header: false, it returns array of arrays. We'll handle header:true as primary output
+                    let jsonObject;
+                    if (header) {
+                         jsonObject = results.data; // Data is already array of objects
+                    } else {
+                        // If no header, create an array of arrays structure
+                        jsonObject = results.data;
+                        // Or, if you wanted array of objects without headers, you'd need default keys (e.g., col1, col2)
+                        // For this tool, let's stick to array of arrays if no header
+                    }
+
+
+                    // Convert to JSON string with indentation
+                    const jsonString = JSON.stringify(jsonObject, null, 2); // null, 2 for pretty printing
+
+                    jsonOutput.value = jsonString;
+                    statusArea.textContent = 'Status: Conversion complete. Ready.';
+                    outputSection.style.display = 'block'; // Show output section
+
+                },
+                error: function(err, file) {
+                    statusArea.textContent = 'Status: An error occurred during parsing.';
+                    console.error("PapaParse Error:", err);
+                     outputSection.style.display = 'none';
+                },
+                // Add step for large files if needed (streaming)
+                // step: function(row, parser) { ... }
+            });
+
+             convertBtn.disabled = false; // Re-enable button after parse starts (parsing is async)
+        });
+
+        // Event Listener for Copy Button
+        copyJsonBtn.addEventListener('click', function() {
+            // Use the modern Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(jsonOutput.value)
+                    .then(() => {
+                        statusArea.textContent = 'Status: JSON copied to clipboard!';
+                         // Optional: Briefly change button text or style for feedback
+                    })
+                    .catch(err => {
+                        statusArea.textContent = 'Status: Failed to copy JSON.';
+                        console.error('Failed to copy text: ', err);
+                         // Fallback for older browsers or http
+                         copyJsonToClipboardFallback();
+                    });
+            } else {
+                 // Fallback for older browsers or http
+                 copyJsonToClipboardFallback();
+            }
+        });
+
+        // Fallback copy method for browsers that don't support navigator.clipboard or not on HTTPS/localhost
+        function copyJsonToClipboardFallback() {
+             try {
+                jsonOutput.select(); // Select the text in the textarea
+                jsonOutput.setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand('copy'); // Execute copy command
+                statusArea.textContent = 'Status: JSON copied to clipboard (fallback)!';
+             } catch (err) {
+                 statusArea.textContent = 'Status: Failed to copy JSON (fallback failed).';
+                 console.error('Fallback copy failed: ', err);
+             }
+        }
+
+
+        // Event Listener for Download Button
+        downloadJsonBtn.addEventListener('click', function() {
+            const jsonString = jsonOutput.value;
+            const filename = 'output.json'; // Default filename
+
+            if (!jsonString.trim()) {
+                statusArea.textContent = 'Status: Nothing to download.';
+                return;
+            }
+
+            // Create a Blob from the JSON string
+            const blob = new Blob([jsonString], { type: 'application/json' });
+
+            // Create a link element
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename; // Set the download filename
+
+            // Append link to body, click it, and remove it
+            document.body.appendChild(a);
+            a.click();
+
+            // Clean up the blob URL after download starts
+            // Use a timeout to ensure the click is processed
+            setTimeout(() => {
+                URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                 statusArea.textContent = 'Status: JSON file download initiated.';
+            }, 100); // Small delay
+
+
+        });
+
+         // Optional: Add some initial placeholder CSV data
+         csvInput.value = `"Name","Age","City"
+"Alice",30,"New York"
+"Bob",25,"London"
+"Charlie",35,"Paris"`;
+
+         statusArea.textContent = 'Status: Ready. Example CSV loaded.';
+
+    </script>
+
+</body>
+</html>
